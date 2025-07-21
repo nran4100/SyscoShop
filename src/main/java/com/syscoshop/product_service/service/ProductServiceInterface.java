@@ -9,4 +9,8 @@ public interface ProductServiceInterface {
     void saveProduct(ProductRequest dto);
     Page<ProductResponse> getAllProducts(Pageable pageable);
     ProductResponse getProductById(String id);
+    void deleteProductById(String id);
+    ProductResponse updateProduct(String id, ProductRequest request);
+
+
 }

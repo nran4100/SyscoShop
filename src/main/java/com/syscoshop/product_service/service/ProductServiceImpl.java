@@ -1,4 +1,3 @@
-// src/main/java/com/syscoshop/product_service/service/ProductServiceImpl.java
 package com.syscoshop.product_service.service;
 
 import com.syscoshop.product_service.dto.ProductRequest;
@@ -38,4 +37,23 @@ public class ProductServiceImpl implements ProductServiceInterface {
                 .orElseThrow(() -> new ProductNotFoundException(id));
         return mapToProductResponse(product);
     }
+
+    @Override
+    public void deleteProductById(String id) {
+        if (!repository.existsById(id)) {
+            throw new ProductNotFoundException(id);
+        }
+        repository.deleteById(id);
+    }
+
+    @Override
+    public ProductResponse updateProduct(String id, ProductRequest request) {
+        Product product = repository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+
+        ProductMapper.updateProductFromRequest(product, request);
+        return mapToProductResponse(repository.save(product));
+    }
+
+
 }

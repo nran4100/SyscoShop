@@ -27,4 +27,14 @@ public class ProductMapper {
                 .categoryId(dto.getCategoryId())
                 .build();
     }
+
+    public static void updateProductFromRequest(Product product, ProductRequest request) {
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setStockCount(request.getStockCount());
+        product.setSupplierID(request.getSupplierID());
+        product.setCategoryId(request.getCategoryId());
+    }
+
+
 }
