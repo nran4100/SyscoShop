@@ -1,0 +1,10 @@
+### Create Product
+POST http://localhost:8081/products
+Content-Type: application/json
+
+{
+  "name": "Chicken",
+  "price": 4.99,
+  "stockCount": 20,
+  "categoryId": "abc123"
+}
