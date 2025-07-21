@@ -17,4 +17,10 @@ public class CategoryMapper {
                 .name(category.getName())
                 .build();
     }
+
+    public static void updateCategoryFromDto(Category category, UpdateCategoryRequest request) {
+        if (request.getName() != null) {
+            category.setName(request.getName());
+        }
+    }
 }

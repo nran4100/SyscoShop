@@ -1,7 +1,7 @@
-// service/CategoryServiceImpl.java
 package com.syscoshop.categories_service.service;
 
 import com.syscoshop.categories_service.dto.*;
+import com.syscoshop.categories_service.exception.CategoryNotFoundException;
 import com.syscoshop.categories_service.util.CategoryMapper;
 import com.syscoshop.categories_service.repository.CategoryRepository;
 import com.syscoshop.categories_service.model.Category;
@@ -29,5 +29,22 @@ public class CategoryServiceImpl implements CategoryService {
                 .stream()
                 .map(CategoryMapper::toResponse)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public CategoryResponse updateCategory(Long id, UpdateCategoryRequest request) {
+        Category category = repository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(id));
+
+        CategoryMapper.updateCategoryFromDto(category, request);
+        Category updated = repository.save(category);
+        return CategoryMapper.toResponse(updated);
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        if (!repository.existsById(id)) {
+            throw new CategoryNotFoundException(id);
+        }
+        repository.deleteById(id);
     }
 }
