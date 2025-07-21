@@ -25,8 +25,22 @@ public class UserController {
         return ResponseEntity.ok(service.getAllUsers(pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getUserById(id));
+    @GetMapping("/{UserID}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long UserID) {
+        return ResponseEntity.ok(service.getUserById(UserID));
     }
+
+    @DeleteMapping("/{userID}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userID) {
+        service.deleteUser(userID);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{userID}")
+    public ResponseEntity<UserResponse> updateUser(
+            @PathVariable Long userID,
+            @Valid @RequestBody UpdateUserRequest updateRequest) {
+        return ResponseEntity.ok(service.updateUser(userID, updateRequest));
+    }
+
 }

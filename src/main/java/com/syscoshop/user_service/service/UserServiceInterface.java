@@ -7,4 +7,7 @@ public interface UserServiceInterface {
     UserResponse saveUser(UserRequest request);
     Page<UserResponse> getAllUsers(Pageable pageable);
     UserResponse getUserById(Long id);
+    void deleteUser(Long userId);
+    UserResponse updateUser(Long userId, UpdateUserRequest request);
+
 }

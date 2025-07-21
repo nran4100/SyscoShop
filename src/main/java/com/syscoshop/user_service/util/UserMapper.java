@@ -16,4 +16,16 @@ public class UserMapper {
     public static UserResponse mapToUserResponse(User user) {
         return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole());
     }
+
+    public static void updateUserFromDto(UpdateUserRequest dto, User user) {
+        if (dto.getName() != null) {
+            user.setName(dto.getName());
+        }
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getRole() != null) {
+            user.setRole(dto.getRole());
+        }
+    }
 }
