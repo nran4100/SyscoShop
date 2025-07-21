@@ -27,12 +27,32 @@ public class CartServiceImpl implements CartService {
         return CartMapper.toDTO(savedCart);
     }
 
-
     @Override
     public CartDto getCartDtoByUserId(Long userId) {
         Cart cart = cartRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Cart not found for user ID: " + userId));
         return CartMapper.toDTO(cart);
+    }
+
+    @Override
+    public CartDto createEmptyCart(Long userId) {
+        Cart cart = CartMapper.createEmptyCart(userId);
+        Cart saved = cartRepository.save(cart);
+        return CartMapper.toDTO(saved);
+    }
+
+    @Override
+    public void deleteCartByUserId(Long userId) {
+        cartRepository.findByUserId(userId).ifPresent(cartRepository::delete);
+    }
+
+    @Override
+    public CartDto removeItemFromCart(Long userId, Long productId) {
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+        cart.getItems().removeIf(item -> item.getProductId().equals(productId));
+        Cart saved = cartRepository.save(cart);
+        return CartMapper.toDTO(saved);
     }
 
 }
