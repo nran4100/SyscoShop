@@ -1,10 +1,10 @@
-### Create Product
-POST http://localhost:8081/products
+GET http://localhost:8081/api/v1/products
 Content-Type: application/json
 
 {
-  "name": "Chicken",
-  "price": 4.99,
-  "stockCount": 20,
-  "categoryId": "abc123"
+  "name": "Apple iPhone 15",
+  "price": 1499.99,
+  "stockCount": 25,
+  "supplierID": 101,
+  "categoryId": 5
 }

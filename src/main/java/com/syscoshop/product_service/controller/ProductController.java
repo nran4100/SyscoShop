@@ -3,6 +3,7 @@ package com.syscoshop.product_service.controller;
 import com.syscoshop.product_service.dto.ProductRequest;
 import com.syscoshop.product_service.dto.ProductResponse;
 import com.syscoshop.product_service.service.ProductServiceInterface;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,10 +19,11 @@ public class ProductController {
     private final ProductServiceInterface productService;
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductRequest request) {
         productService.saveProduct(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> getAllProducts(Pageable pageable) {
