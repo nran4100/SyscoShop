@@ -1,6 +1,5 @@
 package com.syscoshop.cart_service.util;
 
-import com.syscoshop.cart_service.dto.AddToCartRequest;
 import com.syscoshop.cart_service.dto.CartDto;
 import com.syscoshop.cart_service.dto.CartItemRequest;
 import com.syscoshop.cart_service.model.Cart;
