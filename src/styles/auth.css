@@ -55,3 +55,16 @@
   font-size: 0.95rem;
   text-align: center;
 }
+
+.guest-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #6c757d;
+  color: white;
+  cursor: pointer;
+}
+
+.guest-button:hover {
+  background-color: #5a6268;
+}

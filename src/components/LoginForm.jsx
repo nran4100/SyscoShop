@@ -17,7 +17,7 @@ const LoginForm = ({ onLogin }) => {
       // Save all tokens and user info
       saveAuthData({ accessToken, refreshToken, expiresIn, user });
 
-      // Notify parent (optional, if you want to keep using onLogin)
+      // Notify parent (optional, if used)
       if (onLogin) {
         onLogin(user);
       }
@@ -28,6 +28,11 @@ const LoginForm = ({ onLogin }) => {
       console.error('Login error:', err);
       setError('Login failed. Please check your credentials.');
     }
+  };
+
+  const handleContinueAsGuest = () => {
+    // Simply redirect without saving tokens
+    window.location.href = 'http://localhost:9001/products/categories';
   };
 
   return (
@@ -49,6 +54,15 @@ const LoginForm = ({ onLogin }) => {
         required
       />
       <button type="submit">Login</button>
+
+      <button
+        type="button"
+        onClick={handleContinueAsGuest}
+        className="guest-button"
+        style={{ marginTop: '10px', backgroundColor: '#6c757d', color: 'white' }}
+      >
+        Continue as Guest
+      </button>
     </form>
   );
 };
