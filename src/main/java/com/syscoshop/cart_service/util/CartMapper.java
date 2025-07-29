@@ -25,7 +25,7 @@ public class CartMapper {
                 .build();
     }
 
-    public static Cart createEmptyCart(Long userId) {
+    public static Cart createEmptyCart(String userId) {
         return Cart.builder()
                 .userId(userId)
                 .items(new ArrayList<>())
@@ -33,12 +33,16 @@ public class CartMapper {
     }
 
     public static List<CartItem> toCartItems(List<CartItemRequest> itemRequests, Cart cart) {
-        return itemRequests.stream()
-                .map(req -> CartItem.builder()
+        List<CartItem> cartItems = new ArrayList<>();
+        if (itemRequests != null) {
+            for (CartItemRequest req : itemRequests) {
+                cartItems.add(CartItem.builder()
                         .productId(req.getProductId())
                         .quantity(req.getQuantity())
                         .cart(cart)
-                        .build())
-                .collect(Collectors.toList());
+                        .build());
+            }
+        }
+        return cartItems;
     }
 }

@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class AddToCartRequest {
-    private Long userId;
+    private String userId; // Changed to String
     private List<CartItemRequest> items;
 }
