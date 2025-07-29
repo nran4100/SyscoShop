@@ -4,9 +4,18 @@ const apiClient = axios.create({
   timeout: 5000,
 });
 
-export const get = (url, config) => apiClient.get(url, config);
-export const post = (url, data, config) => apiClient.post(url, data, config);
-export const patch = (url, data, config) => apiClient.patch(url, data, config);
-export const del = (url, config) => apiClient.delete(url, config);  
+// Helper to inject Authorization header
+const withAuthHeader = (config = {}, req) => {
+  const headers = {
+    ...(config.headers || {}),
+    ...(req?.headers?.authorization ? { Authorization: req.headers.authorization } : {})
+  };
+  return { ...config, headers };
+};
+
+export const get = (url, config = {}, req = null) => apiClient.get(url, withAuthHeader(config, req));
+export const post = (url, data, config = {}, req = null) => apiClient.post(url, data, withAuthHeader(config, req));
+export const patch = (url, data, config = {}, req = null) => apiClient.patch(url, data, withAuthHeader(config, req));
+export const del = (url, config = {}, req = null) => apiClient.delete(url, withAuthHeader(config, req));
 
 export default apiClient;
