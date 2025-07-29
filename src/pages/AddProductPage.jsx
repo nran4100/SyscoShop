@@ -66,7 +66,8 @@ const units = [
           imageUrl,
           categoryId,
           stockCount,
-          supplierId,
+          supplierID: supplierId,
+
         }),
       });
 

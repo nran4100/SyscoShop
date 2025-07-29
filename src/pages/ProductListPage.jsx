@@ -4,7 +4,7 @@ import { getAllProducts, getAllCategories } from '../services/productService';
 import ProductList from '../components/ProductList';
 import FilterSidebar from '../components/FilterSidebar';
 import '../styles/productListPage.css';
-import { decodeAccessToken } from '../utils/authUtils';  // <-- import here
+import { decodeAccessToken } from '../utils/authUtils';
 
 export default function ProductListPage() {
   const navigate = useNavigate();
@@ -20,13 +20,13 @@ export default function ProductListPage() {
   const filters = {
     categoryId: searchParams.get('categoryId') || '',
     unit: searchParams.get('unit') || '',
-    status: searchParams.get('status') || '',
+    status: 'APPROVED',
     minPrice: searchParams.get('minPrice') || '',
     maxPrice: searchParams.get('maxPrice') || '',
     name: searchParams.get('name') || '',
   };
 
-  const pageSize = 5;
+  const pageSize = 6;
 
   useEffect(() => {
     setCurrentPage(0);
@@ -49,7 +49,6 @@ export default function ProductListPage() {
       .catch((err) => console.error('Failed to load categories', err));
   }, []);
 
-  // Use the utility function to decode token
   useEffect(() => {
     const decoded = decodeAccessToken();
     if (decoded?.role) {
@@ -87,13 +86,18 @@ export default function ProductListPage() {
       </aside>
 
       <main className="product-content">
-        {userRole === 'supplier' && (
-          <div className="product-header-left">
+        <div className="product-header-left">
+          {userRole === 'supplier' && (
             <button className="add-product-button" onClick={() => navigate('/products/add')}>
               + Add Product
             </button>
-          </div>
-        )}
+          )}
+          {userRole === 'data-steward' && (
+            <button className="add-product-button" onClick={() => navigate('/products/pending-approvals')}>
+              Pending Approvals
+            </button>
+          )}
+        </div>
 
         <ProductList
           products={products}

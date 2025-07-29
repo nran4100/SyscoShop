@@ -6,6 +6,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import './styles/main.css';
 import AddCategoryPage from './pages/AddCategoryPage';
 import AddProductPage from './pages/AddProductPage';
+import PendingApprovalsPage from './pages/PendingApprovalsPage'; 
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function Root() {
@@ -13,7 +14,7 @@ export default function Root() {
     <BrowserRouter basename="/products">
       <Routes>
         <Route path="/categories" element={<CategoryListPage />} />
-        
+
         {/* Only admin can access Add Category */}
         <Route
           path="/categories/add"
@@ -27,12 +28,22 @@ export default function Root() {
         <Route path="/products" element={<ProductListPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
 
-        {/* Only data-steward can access Add Product */}
+        {/* Only supplier can access Add Product */}
         <Route
           path="/products/add"
           element={
             <ProtectedRoute allowedRoles={['supplier']}>
               <AddProductPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Only data-steward can access Pending Approvals */}
+        <Route
+          path="/products/pending-approvals"
+          element={
+            <ProtectedRoute allowedRoles={['data-steward']}>
+              <PendingApprovalsPage />
             </ProtectedRoute>
           }
         />

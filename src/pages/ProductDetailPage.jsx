@@ -4,13 +4,16 @@ import { getProductById } from '../services/productService';
 import { formatPrice } from '../utils/formatPrice';
 import { addToCart } from '../services/cartService';
 import Loader from '../components/Loader';
-import '../styles/productDetailPage.css'; // Import new CSS
+import { isTokenValid } from '../utils/authUtils'; // Import this
+import '../styles/productDetailPage.css'; // Import your CSS
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState('1');  // Use string for better control
+  const [error, setError] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track login status
 
   useEffect(() => {
     getProductById(id)
@@ -21,9 +24,54 @@ export default function ProductDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setIsAuthenticated(token && isTokenValid(token));
+  }, []);
+
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+
+    if (value === '') {
+      setQuantity('');
+      setError('');
+      return;
+    }
+
+    const parsed = parseInt(value, 10);
+
+    if (!isNaN(parsed) && parsed >= 1) {
+      if (parsed > product.stockCount) {
+        setError(`Only ${product.stockCount} in stock`);
+      } else {
+        setError('');
+      }
+      setQuantity(value);
+    }
+  };
+
+  const handleBlur = () => {
+    if (quantity === '') {
+      setQuantity('1');
+      setError('');
+    }
+  };
+
   const handleAddToCart = async () => {
+    const parsed = parseInt(quantity, 10);
+
+    if (isNaN(parsed) || parsed < 1) {
+      setError('Enter a valid quantity');
+      return;
+    }
+
+    if (parsed > product.stockCount) {
+      setError(`Cannot add more than ${product.stockCount}`);
+      return;
+    }
+
     try {
-      await addToCart(product.id, quantity);
+      await addToCart(product.id, parsed);
       alert('Product added to cart!');
     } catch (err) {
       console.error('Failed to add to cart:', err.message);
@@ -66,21 +114,30 @@ export default function ProductDetailPage() {
           </div>
         )}
 
-        <div className="quantity-input">
-          <label>
-            Quantity:
-            <input
-              type="number"
-              value={quantity}
-              min="1"
-              onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-            />
-          </label>
-        </div>
+        {/* Show Quantity & Add to Cart only to authenticated users */}
+        {isAuthenticated ? (
+          <>
+            <div className="quantity-input">
+              <label>
+                Quantity:
+                <input
+                  type="number"
+                  value={quantity}
+                  min="1"
+                  onChange={handleQuantityChange}
+                  onBlur={handleBlur}
+                />
+              </label>
+              {error && <p className="error-msg">{error}</p>}
+            </div>
 
-        <button className="add-to-cart-btn" onClick={handleAddToCart}>
-          Add to Cart
-        </button>
+            <button className="add-to-cart-btn" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+          </>
+        ) : (
+          <p className="login-warning">Please login to add to cart</p>
+        )}
       </div>
     </div>
   );

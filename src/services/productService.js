@@ -12,8 +12,7 @@ export const getAllProducts = async (page = 0, size = 10, filters = {}) => {
   if (filters.unit) params.append('unit', filters.unit);
   if (filters.minPrice) params.append('minPrice', filters.minPrice);
   if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
-  if (filters.name) params.append('name', filters.name); // ✅ Add this
-
+  if (filters.name) params.append('name', filters.name);
 
   const response = await fetch(`${API_BASE_URL}/products?${params.toString()}`);
 
@@ -29,15 +28,9 @@ export const getAllProducts = async (page = 0, size = 10, filters = {}) => {
   };
 };
 
-
-export const getAllCategories = async (page = 0, size = 10) => {
-
-  const response = await fetch(
-    `${API_BASE_URL}/categories`
-  );
-
-  if (!response.ok) throw new Error('Failed to fetch products');
-
+export const getAllCategories = async () => {
+  const response = await fetch(`${API_BASE_URL}/categories`);
+  if (!response.ok) throw new Error('Failed to fetch categories');
   const data = await response.json();
 
   return {
@@ -54,3 +47,17 @@ export const getProductById = async (id) => {
   return await response.json();
 };
 
+export const patchProduct = async (id, data) => {
+  const token = getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) throw new Error('Failed to update product');
+  return await response.json();
+};
