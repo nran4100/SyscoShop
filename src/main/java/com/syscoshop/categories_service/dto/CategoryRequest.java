@@ -8,4 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CategoryRequest {
     private String name;
+    private String imageUrl;  // Add this line
 }
+

@@ -8,6 +8,7 @@ public class CategoryMapper {
     public static Category toEntity(CategoryRequest request) {
         return Category.builder()
                 .name(request.getName())
+                .imageUrl(request.getImageUrl())  // Add this line
                 .build();
     }
 
@@ -15,6 +16,7 @@ public class CategoryMapper {
         return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .imageUrl(category.getImageUrl())  // Add this line
                 .build();
     }
 
@@ -22,5 +24,9 @@ public class CategoryMapper {
         if (request.getName() != null) {
             category.setName(request.getName());
         }
+        if (request.getImageUrl() != null) {
+            category.setImageUrl(request.getImageUrl());  // Add this line
+        }
     }
 }
+

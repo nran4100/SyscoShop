@@ -7,4 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 public class UpdateCategoryRequest {
     private String name;
+    private String imageUrl;  // Add this line
 }
+

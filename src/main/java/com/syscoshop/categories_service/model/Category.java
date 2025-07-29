@@ -4,6 +4,7 @@ package com.syscoshop.categories_service.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+// model/Category.java
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,4 +16,7 @@ public class Category {
     private Long id;
 
     private String name;
+
+    private String imageUrl;  // Add this line
 }
+
