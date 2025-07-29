@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,24 +20,38 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductRequest request) {
         productService.saveProduct(request);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(201).build();  // Created
     }
-
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> getAllProducts(Pageable pageable) {
-        return ResponseEntity.ok(productService.getAllProducts(pageable));
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(
+            Pageable pageable,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String supplierID,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer minStock,
+            @RequestParam(required = false) Integer maxStock
+    ) {
+        Page<ProductResponse> products = productService.getAllProducts(
+                pageable, status, supplierID, categoryId, name, minPrice, maxPrice, minStock, maxStock
+        );
+        return ResponseEntity.ok(products);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable String id) {
-        return ResponseEntity.ok(productService.getProductById(id));
+        ProductResponse product = productService.getProductById(id);
+        return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
         productService.deleteProductById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();  // 204 No Content
     }
 
     @PatchMapping("/{id}")
@@ -48,5 +61,4 @@ public class ProductController {
         ProductResponse updatedProduct = productService.updateProduct(id, request);
         return ResponseEntity.ok(updatedProduct);
     }
-
 }

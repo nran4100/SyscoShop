@@ -26,10 +26,20 @@ public class ProductServiceImpl implements ProductServiceInterface {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(Pageable pageable) {
-        return repository.findAll(pageable)
-                .map(ProductMapper::mapToProductResponse);
+    public Page<ProductResponse> getAllProducts(Pageable pageable,
+                                                String status,
+                                                String supplierID,
+                                                Long categoryId,
+                                                String name,
+                                                Double minPrice,
+                                                Double maxPrice,
+                                                Integer minStock,
+                                                Integer maxStock) {
+        Page<Product> products = repository.findProductsByAllOptionalFilters(
+                status, supplierID, categoryId, name, minPrice, maxPrice, minStock, maxStock, pageable);
+        return products.map(ProductMapper::mapToProductResponse);
     }
+
 
     @Override
     public ProductResponse getProductById(String id) {
