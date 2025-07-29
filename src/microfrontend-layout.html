@@ -2,13 +2,16 @@
   <main>
     <route path="/auth">
       <application name="@sysco/auth-mfe"></application>
+      
     </route>
 
     <route path="/products">
+      <application name="@sysco/navbar-mfe"></application>
       <application name="@sysco/product-mfe"></application>
     </route>
 
     <route path="/cart">
+      <application name="@sysco/navbar-mfe"></application>
       <application name="@sysco/cart-mfe"></application>
     </route>
   </main>
