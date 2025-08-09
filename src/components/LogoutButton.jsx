@@ -8,7 +8,6 @@ const LogoutButton = ({ onLogout }) => {
       await logout();
     } catch (err) {
       console.error('Logout failed:', err);
-      // Optionally still clear data even if logout API fails
     } finally {
       clearAuthData();
       onLogout();

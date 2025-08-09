@@ -1,3 +1,6 @@
+import { jwtDecode } from 'jwt-decode'; 
+
+
 // Save all authentication data
 export const saveAuthData = ({ accessToken, refreshToken, expiresIn, user }) => {
   const expiresAt = Date.now() + expiresIn * 1000; // expiresIn is in seconds
@@ -31,4 +34,18 @@ export const clearAuthData = () => {
   localStorage.removeItem('refreshToken');
   localStorage.removeItem('expiresAt');
   localStorage.removeItem('user');
+};
+
+
+export const getRoleFromToken = () => {
+  const token = localStorage.getItem('accessToken');
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode(token);
+    return decoded.role || null;
+  } catch (err) {
+    console.error('Invalid token', err);
+    return null;
+  }
 };
