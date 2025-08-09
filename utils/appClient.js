@@ -4,7 +4,6 @@ const apiClient = axios.create({
   timeout: 5000,
 });
 
-// Helper to inject Authorization header
 const withAuthHeader = (config = {}, req) => {
   const headers = {
     ...(config.headers || {}),

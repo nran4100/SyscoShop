@@ -3,9 +3,29 @@ import jwksClient from 'jwks-rsa';
 import { verifyMockToken } from '../mockUsers.js';
 
 const { verify } = pkg;
-const useMockAuth = true; // Set to false for real Cognito
+
+const useMockAuth = false;  
+const useCognito = false;  
 
 const realAuthenticate = (req, res, next) => {
+  if (!useCognito) {
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Missing Authorization header' });
+    }
+    const token = authHeader.split(' ')[1];
+    try {
+
+      const decoded = pkg.decode(token);
+      req.user = decoded;
+      next();
+    } catch (err) {
+      return res.status(403).json({ message: 'Invalid token', error: err.message });
+    }
+    return;
+  }
+
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Missing Authorization header' });
@@ -36,8 +56,6 @@ const realAuthenticate = (req, res, next) => {
 
 const mockAuthenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
-  console.log('Mock authentication enabled');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Missing or invalid Authorization header' });
   }
