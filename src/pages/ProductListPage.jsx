@@ -93,7 +93,7 @@ export default function ProductListPage() {
             </button>
           )}
           {userRole === 'data-steward' && (
-            <button className="add-product-button" onClick={() => navigate('/products/pending-approvals')}>
+            <button type="Pending Approvals" className="add-product-button" onClick={() => navigate('/products/pending-approvals')}>
               Pending Approvals
             </button>
           )}

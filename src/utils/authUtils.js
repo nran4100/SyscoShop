@@ -5,7 +5,7 @@ export function decodeAccessToken() {
   try {
     const payload = token.split('.')[1];
     const decoded = JSON.parse(atob(payload));
-    return decoded;  // { sub, email, role, iat, etc. }
+    return decoded; 
   } catch (err) {
     console.error('Failed to decode access token:', err);
     return null;
@@ -23,7 +23,6 @@ export function hasRole(allowedRoles = []) {
   return allowedRoles.includes(role);
 }
 
-// src/utils/authUtils.js
 
 export function isTokenValid(token) {
   try {

@@ -38,3 +38,21 @@
   margin-top: 2rem;
   color: #007bff;
 }
+
+.admin-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.add-user-button {
+  padding: 0.5rem 1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-user-button:hover {
+  background-color: #218838;
+}

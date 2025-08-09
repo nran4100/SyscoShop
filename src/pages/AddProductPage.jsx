@@ -13,8 +13,6 @@ export default function AddProductPage() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
-  // Available units
-  // Units as array of objects: { label: display text, value: value to submit }
 const units = [
   { label: 'kg', value: 'KG' },
   { label: 'litre', value: 'LITRE' },

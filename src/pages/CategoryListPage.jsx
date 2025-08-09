@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getAllCategories } from '../services/categoryService';
 import CategoryList from '../components/CategoryList';
 import { useNavigate } from 'react-router-dom';
-import { decodeAccessToken } from '../utils/authUtils'; // Import utility
-import '../styles/categoryListPage.css'; // Optional: new CSS for styling
+import { decodeAccessToken } from '../utils/authUtils'; 
+import '../styles/categoryListPage.css'; 
 
 export default function CategoryListPage() {
   const navigate = useNavigate();
@@ -32,9 +32,18 @@ export default function CategoryListPage() {
       <div className="category-header">
         <h2>Categories</h2>
         {userRole === 'admin' && (
-          <button className="add-category-button" onClick={() => navigate('/categories/add')}>
-            + Add Category
-          </button>
+          <div className="admin-buttons">
+            <button className="add-category-button" onClick={() => navigate('/categories/add')}>
+              + Add Category
+            </button>
+            <button
+              className="add-user-button"
+              onClick={() => (window.location.href = 'http://localhost:9001/auth/register')}
+            >
+              + Add User
+            </button>
+
+          </div>
         )}
       </div>
 
