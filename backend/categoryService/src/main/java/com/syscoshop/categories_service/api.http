@@ -1,0 +1,9 @@
+### Create a new category through BFF
+POST http://localhost:4000/api/v1/categories
+Content-Type: application/json
+#Authorization: Bearer <YOUR_JWT_TOKEN>  # If authentication is required
+
+{
+  "name": "Canned and Dry",
+  "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxjUvrDB0bCKQwCx2hQBBhyv8GqmCdrVgFXg&s"
+}
