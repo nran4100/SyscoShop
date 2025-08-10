@@ -1,0 +1,17 @@
+GET http://localhost:4000/api/v1/carts
+
+
+
+
+
+
+{
+  "name": "Fresh Fish (Whole)",
+  "price": 1800.0,
+  "stockCount": 15,
+  "unit": "KG",
+  "status": "APPROVED",
+  "supplierID": "user-004",
+  "categoryId": 1,
+  "imageUrl": "https://5.imimg.com/data5/SELLER/Default/2024/11/466742100/KS/SH/OZ/233542503/fresh-seabass-whole-fish.png"
+}
